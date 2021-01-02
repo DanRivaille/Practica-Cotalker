@@ -6,16 +6,16 @@
 
 h1 {
     margin: 20px;
-    font-size: 55px;
+    font-size: 40px;
     font-weight: 800;
     color: #304e6b;
 }
 
 form {
-    width: 720px;
+    width: 740px;
     padding: 16px;
     border-radius: 10px;
-    margin: 30px;
+    margin: 10px 30px;
     background-color: #eef1f3;
     box-sizing: border-box;
 }
@@ -29,4 +29,17 @@ form input {
     width: 150px;
     display: inline-block;
     margin-right: 50px;
+}
+
+#contenedor-archivo {
+    width: 708px;
+    margin: 10px 30px;
+    padding: 16px;
+    border-radius: 10px;
+    background-color: #eef1f3;
+}
+
+#contenedor-archivo label {
+    display: inline-block;
+    width: 120px;
 }

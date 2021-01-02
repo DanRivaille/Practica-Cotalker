@@ -8,6 +8,12 @@
 
     <body>
         <h1>Grafico Sesiones vs Tiempo</h1>
+
+        <div id="contenedor-archivo">
+            <label for="archivo-logs">Archivo Logs: </label>
+            <input type="file" id="archivo-logs">
+        </div>
+
         <div id="info-grafico">
             <form id="filtros">
                 <label for="compañia">Compañia:</label>
@@ -26,6 +32,7 @@
                 <input type="text" id="intervalo" placeholder="Minutos">
             </form>
         </div>
+
         <img src="./sources/grafico.png" alt="grafico">
 
         <script src="js/app.js"></script>
