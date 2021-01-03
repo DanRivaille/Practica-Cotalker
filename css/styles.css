@@ -31,6 +31,10 @@ form input {
     margin-right: 50px;
 }
 
+canvas {
+    margin: 10px 30px;
+}
+
 #contenedor-archivo {
     width: 708px;
     margin: 10px 30px;
