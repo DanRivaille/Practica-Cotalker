@@ -15,7 +15,8 @@ function cargarLogs() {
             worker: true,
             step: function(resultado) {
                 if(resultado.data.length > 1) {
-                    console.log(resultado.data.length, crearRegistro(resultado.data));
+                    const nuevoRegistro = crearRegistro(resultado.data);
+                    registros.push(nuevoRegistro);
                 }
             }
         });
