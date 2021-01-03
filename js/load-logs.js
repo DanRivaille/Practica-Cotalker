@@ -11,6 +11,8 @@ cargarLogsBtn.addEventListener('click', cargarLogs);
  * */
 function cargarLogs() {
     if(inputFileLogs.files.length > 0) {
+        registros.length = 0;
+
         Papa.parse(inputFileLogs.files[0], {
             worker: true,
             step: function(resultado) {
