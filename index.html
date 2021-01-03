@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Informacion Sesiones</title>
         <link rel="stylesheet" href="css/styles.css">
+        <script type="text/javascript" src="./js/PapaParse-5.0.2/papaparse.min.js"></script>
     </head>
 
     <body>
@@ -12,6 +13,7 @@
         <div id="contenedor-archivo">
             <label for="archivo-logs">Archivo Logs: </label>
             <input type="file" id="archivo-logs">
+            <button id="cargar-logs">Cargar Logs</button>
         </div>
 
         <div id="info-grafico">
@@ -35,6 +37,7 @@
 
         <img src="./sources/grafico.png" alt="grafico">
 
+        <script src="js/load-logs.js"></script>
         <script src="js/app.js"></script>
     </body>
 </html>

@@ -43,3 +43,7 @@ form input {
     display: inline-block;
     width: 120px;
 }
+ #contenedor-archivo button {
+    float: right;
+    margin-right: 30px;
+ }
