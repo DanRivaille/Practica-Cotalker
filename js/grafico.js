@@ -1,9 +1,9 @@
 // Contexto del canvas en donde se dibujara el grafico
 const ctx = document.querySelector('#my-chart').getContext('2d');
 
-const datasetsChart = [];
+let datasetsChart = [];
 
-const labelsChart = [];
+let labelsChart = [];
 
 // Datos del grafico
 const dataChart = {
