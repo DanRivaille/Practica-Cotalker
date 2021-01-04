@@ -7,6 +7,7 @@ const reader = new FileReader();
 
 // Guardara los registros de los logs
 const registros = [];
+let estanCargados = false;
 
 cargarEventsListeners();
 
@@ -33,6 +34,7 @@ function habilitarBotonCargarLogs() {
  * */
 function handleSelect(e) {
     cargarLogsBtn.setAttribute('disabled', true);
+    estanCargados = false;
     const file = inputFileLogs.files[0];
     reader.readAsDataURL(file);
 }
@@ -56,6 +58,7 @@ function cargarLogs() {
             },
             complete: function() {
                 establecerRangoFechas();
+                estanCargados = true;
                 console.log('logs cargados');
             }
         });

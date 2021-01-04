@@ -1,4 +1,5 @@
 // Variables
+const formulario = document.querySelector('#filtros');
 const companyIdInput = document.querySelector('#compania');
 const userIdInput = document.querySelector('#usuario');
 const initialDateInput = document.querySelector('#fecha-inicio');
@@ -45,8 +46,10 @@ function filtrarFechas(evt) {
         filtros.lastDateMs = (evt.target.value == '') ? -1 : Date.parse(evt.target.value);
     }
 
-    actualizarIntervalosFechas(filtros.initialDateMs, filtros.lastDateMs);
-    renderChart();
+    if(estanCargados) {
+        actualizarIntervalosFechas(filtros.initialDateMs, filtros.lastDateMs);
+        renderChart();
+    }
 }
 
 /** Funcion que actualiza el filtro intervalo */
