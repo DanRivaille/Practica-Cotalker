@@ -23,10 +23,16 @@ function cargarEventsListeners() {
  * Funcion que habilitara el boton de cargar los logs, luego de que se termine de subir el archivo
  * */
 function habilitarBotonCargarLogs() {
-    console.log('archivo cargado');
+    console.log('Archivo cargado exitosamente');
+    cargarLogsBtn.removeAttribute('disabled');
 }
 
+/**
+ * Funcion que se ejecuta cuando se selecciona otro archivo, y desabilita el boton de cargar logs,
+ * que luego sera activado de nuevo cuando se termine de cargar el archivo
+ * */
 function handleSelect(e) {
+    cargarLogsBtn.setAttribute('disabled', true);
     const file = inputFileLogs.files[0];
     reader.readAsDataURL(file);
 }
