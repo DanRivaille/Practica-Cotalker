@@ -106,7 +106,7 @@ function establecerRangoFechas() {
 function obtenerFechaFormatoYMD(fechaFormatoDate) {
     const year = fechaFormatoDate.getFullYear();
     const month = ('0' + (fechaFormatoDate.getMonth() + 1)).slice(-2);
-    const day = ('0' + (fechaFormatoDate.getDate() + 1)).slice(-2);
+    const day = ('0' + (fechaFormatoDate.getDate())).slice(-2);
 
     const resultado = `${year}-${month}-${day}`;
     return resultado;
