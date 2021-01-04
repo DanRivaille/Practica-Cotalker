@@ -1,16 +1,43 @@
+// Elementos HTML
 const cargarLogsBtn = document.querySelector('#contenedor-archivo button');
 const inputFileLogs = document.querySelector('#contenedor-archivo input');
+const inputFechaInicial = document.querySelector('#fecha-inicio');
+const inputFechaFinal = document.querySelector('#fecha-final');
+const reader = new FileReader();
 
 // Guardara los registros de los logs
 const registros = [];
 
-cargarLogsBtn.addEventListener('click', cargarLogs);
+cargarEventsListeners();
 
 /**
- * Funcion que carga los logs del archivo seleccionado y pobla el vector 'registros'
+ * Funcion que carga los events listeners
+ * */
+function cargarEventsListeners() {
+    cargarLogsBtn.addEventListener('click', cargarLogs);
+    inputFileLogs.addEventListener('change', handleSelect);
+    reader.addEventListener('loadend', habilitarBotonCargarLogs)
+}
+
+/**
+ * Funcion que habilitara el boton de cargar los logs, luego de que se termine de subir el archivo
+ * */
+function habilitarBotonCargarLogs() {
+    console.log('archivo cargado');
+}
+
+function handleSelect(e) {
+    const file = inputFileLogs.files[0];
+    reader.readAsDataURL(file);
+}
+
+/**
+ * Funcion que carga los logs del archivo seleccionado y pobla el vector 'registros',
+ * y establece los rango permitidos a eligir por el usuario en el input de las fechas
  * */
 function cargarLogs() {
     if(inputFileLogs.files.length > 0) {
+        // Se reinicializa el vector de registros para guardar los nuevos
         registros.length = 0;
 
         Papa.parse(inputFileLogs.files[0], {
@@ -20,8 +47,13 @@ function cargarLogs() {
                     const nuevoRegistro = crearRegistro(resultado.data);
                     registros.push(nuevoRegistro);
                 }
+            },
+            complete: function() {
+                establecerRangoFechas();
+                console.log('logs cargados');
             }
         });
+
     } else {
         console.log('No selecciono ningun archivo');
     }
@@ -41,4 +73,35 @@ function crearRegistro(log) {
     }
 
     return nuevoRegistro;
+}
+
+/**
+ * Funcion que establece el rango permitido de fecha a elegir, dependiendo de los rangos
+ * reales de los logs ingresados
+ * */
+function establecerRangoFechas() {
+    const maxFecha = new Date(registros[registros.length - 1].dateMs);
+    const minFecha = new Date(registros[0].dateMs);
+
+    // Se obtiene las fechas en el formato YYYY-MM-DD
+    const maxFechaFormateada = obtenerFechaFormatoYMD(maxFecha);
+    const minFechaFormateada = obtenerFechaFormatoYMD(minFecha);
+
+    inputFechaInicial.setAttribute('min', minFechaFormateada);
+    inputFechaInicial.setAttribute('max', maxFechaFormateada);
+
+    inputFechaFinal.setAttribute('min', minFechaFormateada);
+    inputFechaFinal.setAttribute('max', maxFechaFormateada);
+}
+
+/**
+ * Funcion que transforma el objeto Date ingresado en el formato YYYY-MM-DD
+ * */
+function obtenerFechaFormatoYMD(fechaFormatoDate) {
+    const year = fechaFormatoDate.getFullYear();
+    const month = ('0' + (fechaFormatoDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + (fechaFormatoDate.getDate() + 1)).slice(-2);
+
+    const resultado = `${year}-${month}-${day}`;
+    return resultado;
 }
