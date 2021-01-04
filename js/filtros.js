@@ -44,6 +44,9 @@ function filtrarFechas(evt) {
     } else {
         filtros.lastDateMs = (evt.target.value == '') ? -1 : Date.parse(evt.target.value);
     }
+
+    actualizarIntervalosFechas(filtros.initialDateMs, filtros.lastDateMs);
+    renderChart();
 }
 
 /** Funcion que actualiza el filtro intervalo */

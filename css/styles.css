@@ -31,6 +31,12 @@ form input {
     margin-right: 50px;
 }
 
+form button {
+    width: 165px;
+    float: right;
+    margin-right: 75px;
+}
+
 canvas {
     margin: 10px 30px;
 }
