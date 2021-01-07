@@ -1,2 +1,2 @@
-/sources
-/js/PapaParse-5.0.2
+frontend/sources/*
+*.csv
