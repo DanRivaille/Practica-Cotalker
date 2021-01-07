@@ -38,17 +38,6 @@ const crearGraficoBtn = document.querySelector('#crear-grafico');
 
 crearGraficoBtn.addEventListener('click', function(evt) {
     evt.preventDefault();
-
-    actualizarIntervalosFechas(filtros.initialDateMs, filtros.lastDateMs);
-    const ses = obtenerSesionesPorUsuario(15);
-    const can = obtenerCantidadSesiones(ses);
-
-    labelsChart = intervalos;
-    datasetsChart.push({data: can});
-
-    renderChart();
-
-    console.log(can);
 })
 
 function obtenerCantidadSesiones(sesionesPorUsuario) {

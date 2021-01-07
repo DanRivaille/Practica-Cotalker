@@ -5,17 +5,10 @@
         <title>Informacion Sesiones</title>
         <link rel="stylesheet" href="css/styles.css">
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     </head>
 
     <body>
         <h1>Grafico Sesiones vs Tiempo</h1>
-
-        <div id="contenedor-archivo">
-            <label for="archivo-logs">Archivo Logs: </label>
-            <input type="file" id="archivo-logs">
-            <button id="cargar-logs" disabled>Cargar Logs</button>
-        </div>
 
         <div id="info-grafico">
             <form id="filtros">
@@ -41,7 +34,6 @@
 
         <canvas id="my-chart" width=680 height="400"></canvas>
 
-        <script src="js/load-logs.js"></script>
         <script src="js/filtros.js"></script>
         <script src="js/app.js"></script>
         <script src="js/grafico.js"></script>
