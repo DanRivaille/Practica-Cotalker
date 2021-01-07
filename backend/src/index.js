@@ -14,6 +14,13 @@ app.use(express.json());
 // Routes
 app.use('/api', router);
 
-app.listen(app.get('port'), () => {
-    console.log(`Server running on port ${app.get('port')}`);
-})
+const connect = require('./database');
+
+async function main() {
+    await app.listen(app.get('port'), () => {
+        console.log(`Server running on port ${app.get('port')}`);
+    });
+    
+}
+
+main();
