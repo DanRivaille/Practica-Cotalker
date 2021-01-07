@@ -43,8 +43,6 @@ crearGraficoBtn.addEventListener('click', function(evt) {
     const ses = obtenerSesionesPorUsuario(15);
     const can = obtenerCantidadSesiones(ses);
 
-    intervalos.splice(0, 1);
-
     labelsChart = intervalos;
     datasetsChart.push({data: can});
 
