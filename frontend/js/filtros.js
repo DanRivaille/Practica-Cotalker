@@ -1,7 +1,7 @@
 // Variables
 const companyIdInput = document.querySelector('#compania');
 const userIdInput = document.querySelector('#usuario');
-const initialDateInput = document.querySelector('#fecha-inicio');
+const initialDateInput = document.querySelector('#fecha-inicial');
 const lastDateInput = document.querySelector('#fecha-final');
 const intervaloInput = document.querySelector('#intervalo');
 
