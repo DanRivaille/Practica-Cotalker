@@ -2,10 +2,13 @@
 const fechaInicialInput = document.querySelector('#fecha-inicial');
 const fechaFinalInput = document.querySelector('#fecha-final');
 
+const rangoFechasValidas = {};
+
 
 /**
  * Funcion que se ejecuta cuando se termina de cargar el DOM, realiza una peticion con el metodo GET
- * a la API del servidor, la cual retorna las fechas inicial y final de los logs registrados
+ * a la API del servidor, la cual retorna las fechas inicial y final de los logs registrados.
+ * Estas fechas son almacenadas para tener un registro de las fechas minimas y maximas posibles.
  * */
 document.addEventListener('DOMContentLoaded', () => {
     axios.get('http://localhost:3000/api/logs')
@@ -15,6 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         establecerLimitesFechas(fechaInicialInput, fechaInicialFormateada, fechaFinalFormateada);
         establecerLimitesFechas(fechaFinalInput, fechaInicialFormateada, fechaFinalFormateada);
+
+        rangoFechasValidas.fechaInicial = fechaInicialFormateada;
+        rangoFechasValidas.fechaFinal = fechaFinalFormateada;
+
+        filtros.initialDateMs = Date.parse(fechaInicialFormateada);
+        filtros.lastDateMs = Date.parse(fechaFinalFormateada);
     })
 
 });

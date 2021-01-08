@@ -39,10 +39,14 @@ function filtrarUsuario(evt) {
 
 /** Funcion que actualiza el filtro las fechas correspondientes */
 function filtrarFechas(evt) {
+    const valorInput = evt.target.value;
+
     if(evt.target.getAttribute('id') == 'fecha-inicial') {
-        filtros.initialDateMs = (evt.target.value == '') ? -1 : Date.parse(evt.target.value);
+        const fecha = (valorInput == '') ? rangoFechasValidas.fechaInicial : valorInput;
+        filtros.initialDateMs = Date.parse(fecha);
     } else {
-        filtros.lastDateMs = (evt.target.value == '') ? -1 : Date.parse(evt.target.value);
+        const fecha = (valorInput == '') ? rangoFechasValidas.fechaFinal : valorInput;
+        filtros.lastDateMs = Date.parse(fecha);
     }
 
 }
