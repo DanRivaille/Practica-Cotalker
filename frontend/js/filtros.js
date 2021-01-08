@@ -39,7 +39,7 @@ function filtrarUsuario(evt) {
 
 /** Funcion que actualiza el filtro las fechas correspondientes */
 function filtrarFechas(evt) {
-    if(evt.target.getAttribute('id') == 'fecha-inicio') {
+    if(evt.target.getAttribute('id') == 'fecha-inicial') {
         filtros.initialDateMs = (evt.target.value == '') ? -1 : Date.parse(evt.target.value);
     } else {
         filtros.lastDateMs = (evt.target.value == '') ? -1 : Date.parse(evt.target.value);

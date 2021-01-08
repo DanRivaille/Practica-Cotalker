@@ -24,6 +24,7 @@ const crearGraficoBtn = document.querySelector('#crear-grafico');
 
 crearGraficoBtn.addEventListener('click', function(evt) {
     evt.preventDefault();
+    console.log(filtros);
 })
 
 /**
