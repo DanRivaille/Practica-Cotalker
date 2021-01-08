@@ -25,6 +25,11 @@ const crearGraficoBtn = document.querySelector('#crear-grafico');
 crearGraficoBtn.addEventListener('click', function(evt) {
     evt.preventDefault();
     console.log(filtros);
+
+    axios.post('http://localhost:3000/api/logs', filtros)
+    .then(response => {
+        console.log('recivido');
+    })
 })
 
 /**
