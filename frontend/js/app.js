@@ -37,7 +37,15 @@ crearGraficoBtn.addEventListener('click', function(evt) {
 
     axios.post('http://localhost:3000/api/logs', filtros)
     .then(response => {
-        console.log('recivido');
+        datasetsChart.push({data: response.data.datasets});
+
+        labelsChart = response.data.labels.map(l => {
+            const d = new Date(l);
+            return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+        });
+
+        console.log(datasetsChart, labelsChart);
+        renderChart();
     })
 })
 
