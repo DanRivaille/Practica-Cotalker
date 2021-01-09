@@ -37,17 +37,21 @@ crearGraficoBtn.addEventListener('click', function(evt) {
 
     axios.post('http://localhost:3000/api/logs', filtros)
     .then(response => {
-        datasetsChart.push({data: response.data.datasets});
+        dataChart.datasets.push({data: response.data.datasets});
+        dataChart.labels = response.data.labels.map(l => obtenerFechaFormatoYMD(new Date(l))).slice(0, -1);
 
-        labelsChart = response.data.labels.map(l => {
-            const d = new Date(l);
-            return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-        });
-
-        console.log(datasetsChart, labelsChart);
         renderChart();
     })
 })
+
+function obtenerFechaFormatoYMD(fechaFormatoDate) {
+    const year = fechaFormatoDate.getFullYear();
+    const month = ('0' + (fechaFormatoDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + (fechaFormatoDate.getDate())).slice(-2);
+
+    const resultado = `${year}-${month}-${day}`;
+    return resultado;
+}
 
 /**
  * Funcion que establece los valores limites de los elementos input HTML para que solo se puedan
