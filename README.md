@@ -27,3 +27,9 @@ true
 Luego de ingresar estas instrucciones, se empezara a ejecutar el script que sirve para reducir la densidad de los datos, esto disminuira notablemente la cantidad de datos a procesar.
 
 Antes de ejecuar el script, los logs se encontraban en la coleccion "logs", pero despues de ejecutarlo, la coleccion con la que se trabajara, osea la que contienen los datos preprocesados sera "registros"
+
+Por ultimo se crea un indice por el campo "date" para mejorar las consultas:
+```sh
+> use Servidor
+> db.registros.ensureIndex({"date": 1})
+```
