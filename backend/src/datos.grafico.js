@@ -8,6 +8,19 @@
  // Variables
 const CANT_INTERVALOS = 5;      // Cantidad de intervalos que se dibujaran en el grafico (eje x)
 
+function Sesion(inicio, final) {
+    this.inicio = inicio;
+    this.final = final;
+}
+
+function Usuario(fechaActual) {
+    this.sesiones = [];
+    this.temp = {
+        inicio: fechaActual,
+        actual:fechaActual
+    };
+}
+
 /**
  * Funcion que se ejecutara en cada registro obtenido de la DB, y lo procesara para obtener cada usuario por separado
  * con sus sesiones.
@@ -24,7 +37,7 @@ function procesarRegistros(reg, usuarios, intervaloMs) {
 
         if((fechaActual - usuario.temp.actual) >= intervaloMs) {
             if(usuario.temp.actual != usuario.temp.inicio) {
-                const nuevaSesion = {"inicio": usuario.temp.inicio, "final": usuario.temp.actual};
+                const nuevaSesion = new Sesion(usuario.temp.inicio, usuario.temp.actual);
                 usuario.sesiones.push(nuevaSesion);
             }
 
@@ -33,7 +46,7 @@ function procesarRegistros(reg, usuarios, intervaloMs) {
 
         usuario.temp.actual = fechaActual;
     } else {
-        const nuevoUsuario = {"sesiones": [], "temp": {"inicio": fechaActual, "actual": fechaActual}};
+        const nuevoUsuario = new Usuario(fechaActual);
         usuarios.set(clave, nuevoUsuario);
     }
 }
@@ -93,7 +106,7 @@ function obtenerSesiones(usuarios, intervaloMs) {
         // Se comprueba quedo pendiente una sesion de algun usuario para agregarse a su lista de sesiones
         if(usuario.temp.actual != usuario.temp.inicio) {
             if((usuario.temp.actual - usuario.temp.inicio) <= intervaloMs) {
-                const nuevaSesion = {"inicio": usuario.temp.inicio, "final": usuario.temp.actual};
+                const nuevaSesion = new Sesion(usuario.temp.inicio, usuario.temp.actual);
                 usuario.sesiones.push(nuevaSesion);
             }
 
