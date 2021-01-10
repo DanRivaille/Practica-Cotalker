@@ -26,7 +26,12 @@
                 <input type="date" id="fecha-final">
 
                 <label for="intervalo">Intervalo Activo:</label>
-                <input type="text" id="intervalo" placeholder="Minutos">
+                <select id="intervalo">
+                    <option value="15">15 Minutos</option>
+                    <option value="30">30 Minutos</option>
+                    <option value="45">45 Minutos</option>
+                    <option value="60">60 Minutos</option>
+                </select>
 
                 <!--TEMPORAL-->
                 <button type="submit" id="crear-grafico">Generar Grafico</button>

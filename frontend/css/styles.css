@@ -37,6 +37,10 @@ form button {
     margin-right: 75px;
 }
 
+form select {
+    width: 165px;
+}
+
 canvas {
     margin: 10px 30px;
 }

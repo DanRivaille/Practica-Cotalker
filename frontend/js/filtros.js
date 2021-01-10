@@ -53,5 +53,5 @@ function filtrarFechas(evt) {
 
 /** Funcion que actualiza el filtro intervalo */
 function filtrarIntervalo(evt) {
-    filtros.intervaloMinutos = (evt.target.value == '') ? 15 : parseInt(evt.target.value);
+    filtros.intervaloMinutos = parseInt(evt.target.value);
 }
