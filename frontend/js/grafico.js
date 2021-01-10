@@ -17,7 +17,18 @@ const dataChart = {
 
 // Opciones del grafico
 const optionsChart = {
-    responsive: false
+    responsive: false,
+    title: {
+        display: true,
+        text: 'Sesiones vs Tiempo'
+    },
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
 };
 
 renderChart();
@@ -26,6 +37,9 @@ renderChart();
  * Funcion que redibuja el grafico en el canvas con los datos y opciones correspondientes
  * */
 function renderChart() {
+    if(dataChart.datasets.length > 0)
+        dataChart.datasets[0].label = 'Cantidad de Sesiones Activas';
+
     const chart = new Chart(ctx, {
         type: 'line',
         data: dataChart,
