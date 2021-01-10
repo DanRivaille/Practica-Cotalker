@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Contiene las funciones que manejan los eventos para actualizar los valores del
+ * filtro del formulario HTML
+ * 
+ * @author Dan Santos
+ * @version 1.0
+ * */
+
 // Variables
 const companyIdInput = document.querySelector('#compania');
 const userIdInput = document.querySelector('#usuario');

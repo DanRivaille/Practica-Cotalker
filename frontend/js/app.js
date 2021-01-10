@@ -1,9 +1,17 @@
+/**
+ * @fileoverview Contiene las funciones que realizan las operaciones principales de la aplicacion,
+ * que es la de la comunicacion con la api para generar el grafico.
+ * 
+ * @author Dan Santos
+ * @version 1.0
+ * */
+
 // Variables
 const fechaInicialInput = document.querySelector('#fecha-inicial');
 const fechaFinalInput = document.querySelector('#fecha-final');
+const crearGraficoBtn = document.querySelector('#crear-grafico');
 
 const rangoFechasValidas = {};
-
 
 /**
  * Funcion que se ejecuta cuando se termina de cargar el DOM, realiza una peticion con el metodo GET
@@ -28,12 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-/*TEMPORAL*/
-const crearGraficoBtn = document.querySelector('#crear-grafico');
-
+/**
+ * Funcion que manda una peticion POST a la api, y el envia el filtro actual y espera para que le
+ * devuelva los datos del grafico obtenido, una vez obtenidos estos datos, modifica dataChart para
+ * generar el nuevo grafico (vease frontend/js/grafico.js)
+ * */
 crearGraficoBtn.addEventListener('click', function(evt) {
     evt.preventDefault();
-    console.log(filtros);
 
     axios.post('http://localhost:3000/api/logs', filtros)
     .then(response => {
@@ -44,6 +53,10 @@ crearGraficoBtn.addEventListener('click', function(evt) {
     })
 })
 
+/**
+ * @param {Date} fechaFormatoDate fecha que sera formateada
+ * @returns {string} cadena que representa la fecha con formato YYYY-MM-DD
+ * */
 function obtenerFechaFormatoYMD(fechaFormatoDate) {
     const year = fechaFormatoDate.getFullYear();
     const month = ('0' + (fechaFormatoDate.getMonth() + 1)).slice(-2);
@@ -56,6 +69,9 @@ function obtenerFechaFormatoYMD(fechaFormatoDate) {
 /**
  * Funcion que establece los valores limites de los elementos input HTML para que solo se puedan
  * elegir fechas dentro del rango permitido por logs
+ * @param {HTMLInputElement} fechaInput elemento HTML que se le estableceran los atributos
+ * @param {string} fechaInicial valor del atributo min
+ * @param {string} fechaFinal valor del atributo max
  * */
 function establecerLimitesFechas(fechaInput, fechaInicial, fechaFinal) {
     fechaInput.setAttribute('min', fechaInicial);
