@@ -56,7 +56,7 @@ router.post('/logs', async (req, res) => {
 
     const datosGrafico = {
         datasets: obtenerDatasets(usuarios, intervaloMs, intervalos),
-        labels: intervalos
+        labels: intervalos.slice(0, -1)
     }
 
     res.json(datosGrafico)

@@ -37,8 +37,8 @@ crearGraficoBtn.addEventListener('click', function(evt) {
 
     axios.post('http://localhost:3000/api/logs', filtros)
     .then(response => {
-        dataChart.datasets.push({data: response.data.datasets});
-        dataChart.labels = response.data.labels.map(l => obtenerFechaFormatoYMD(new Date(l))).slice(0, -1);
+        dataChart.datasets = [{data: response.data.datasets}];
+        dataChart.labels = response.data.labels.map(l => obtenerFechaFormatoYMD(new Date(l)));
 
         renderChart();
     })
