@@ -1,15 +1,25 @@
+/**
+ * @fileoverview Contiene las rutas de la API y las funciones que se ejecutan dependiendo de los metodos realizados
+ * 
+ * @author Dan Santos
+ * @version 1.0
+ * */
+
+// Dependencias
 const Router = require('express').Router;
 const router = Router();
 const connect = require('../database');
 const {obtenerIntervalos, procesarRegistros, obtenerDatasets} = require('../datos.grafico');
 
+/**
+ * Metodo GET (/api/): envia un mensaje de bienvenida a la API
+ * */
 router.get('/', (req, res) => {
     res.send('Welcome to my API!');
 })
 
 /**
- * Se ejecuta cuando se realiza una consulta con el metodo get a la ruta /api/logs, este devuelve las fechas
- * limite validas dependiendo de los logs cargados en la DB
+ * Metodo GET (/api/logs): este devuelve las fechas limite validas dependiendo de los logs cargados en la DB
  * */
 router.get('/logs', async (req, res) => {
     const db = await connect();
@@ -33,9 +43,8 @@ router.get('/logs', async (req, res) => {
 });
 
 /**
- * Se ejecuta cuando se realiza una consulta con el metodo post a la ruta /api/logs/, espera que le manden
- * un objeto de tipo filtro (**vease frontend/js/filtros.js), y devuelve los datos del grafico generado
- * dependiendo de los filtros ingresados
+ * Metodo POST (/api/logs/): espera que le manden un objeto de tipo filtro (**vease frontend/js/filtros.js), 
+ * y devuelve los datos del grafico generado dependiendo de los filtros ingresados.
  * */
 router.post('/logs', async (req, res) => {
     const db = await connect();
@@ -51,7 +60,6 @@ router.post('/logs', async (req, res) => {
         procesarRegistros(registro, usuarios, intervaloMs);
     });
 
-
     const intervalos = obtenerIntervalos(req.body.initialDateMs, req.body.lastDateMs);
 
     const datosGrafico = {
@@ -59,10 +67,13 @@ router.post('/logs', async (req, res) => {
         labels: intervalos.slice(0, -1)
     }
 
-
     res.json(datosGrafico)
 });
 
+/**
+ * @param {Object} filtro Contiene los filtros del formulario HTML que indica como se generara el grafico
+ * @returns {Object} filtro que se utilizara en la consulta a la DB Mongo.
+ * */
 function crearFiltroQuery(filtro) {
     const fechaInicial = new Date(filtro.initialDateMs);
     const fechaFinal = new Date(filtro.lastDateMs);
@@ -78,4 +89,5 @@ function crearFiltroQuery(filtro) {
     return filtroQuery;
 }
 
+// Se exporta el objeto router que se usa en index.js
 module.exports = router;
