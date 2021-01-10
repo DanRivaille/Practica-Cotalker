@@ -41,16 +41,16 @@ router.post('/logs', async (req, res) => {
     const db = await connect();
     const collection = db.collection('registros');
 
-    const fechaInicial = new Date(req.body.initialDateMs);
-    const fechaFinal = new Date(req.body.lastDateMs);
+    const filtroQuery = crearFiltroQuery(req.body);
 
     const usuarios = new Map();
     const intervaloMs = (req.body.intervaloMinutos + 1) * 60000;
 
-    await collection.find({"date": {"$gte": fechaInicial, "$lte": fechaFinal}})
+    await collection.find(filtroQuery)
     .forEach(registro => {
         procesarRegistros(registro, usuarios, intervaloMs);
     });
+
 
     const intervalos = obtenerIntervalos(req.body.initialDateMs, req.body.lastDateMs);
 
@@ -59,7 +59,23 @@ router.post('/logs', async (req, res) => {
         labels: intervalos.slice(0, -1)
     }
 
+
     res.json(datosGrafico)
 });
+
+function crearFiltroQuery(filtro) {
+    const fechaInicial = new Date(filtro.initialDateMs);
+    const fechaFinal = new Date(filtro.lastDateMs);
+
+    const filtroQuery = {"date": {"$gte": fechaInicial, "$lte": fechaFinal}};
+
+    if(filtro.companyId != -1)
+        filtroQuery.companyId = filtro.companyId;
+
+    if(filtro.userId != -1)
+        filtroQuery.userId = filtro.userId;
+
+    return filtroQuery;
+}
 
 module.exports = router;

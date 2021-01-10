@@ -38,6 +38,26 @@ function obtenerDatasets(usuarios, intervaloMs, intervalos) {
     return cantidades;
 }
 
+function obtenerSesiones(usuarios, intervaloMs) {
+    let sesiones = [];
+
+    usuarios.forEach(usuario => {
+        if(usuario.temp.actual != usuario.temp.inicio) {
+            if((usuario.temp.actual - usuario.temp.inicio) <= intervaloMs) {
+                const nuevaSesion = {"inicio": usuario.temp.inicio, "final": usuario.temp.actual};
+                usuario.sesiones.push(nuevaSesion);
+            }
+
+        }
+
+        if(usuario.sesiones.length > 0) {
+            sesiones = sesiones.concat(usuario.sesiones);
+        }
+    });
+
+    return sesiones;
+}
+
 function obtenerClave(reg) {
     return `${reg.companyId}-${reg.userId}`;
 }
@@ -75,23 +95,5 @@ function procesarRegistros(reg, usuarios, intervaloMs) {
     }
 }
 
-function obtenerSesiones(usuarios, intervaloMs) {
-    let sesiones = [];
-
-    usuarios.forEach(usuario => {
-        if(usuario.temp.actual != usuario.temp.inicio) {
-            if((usuario.temp.actual - usuario.temp.inicio) <= intervaloMs) {
-                const nuevaSesion = {"inicio": usuario.temp.inicio, "final": usuario.temp.actual};
-                usuario.sesiones.push(nuevaSesion);
-            }
-
-            if(usuario.sesiones.length > 0) {
-                sesiones = sesiones.concat(usuario.sesiones);
-            }
-        }
-    });
-
-    return sesiones;
-}
 
 module.exports = {obtenerDatasets, obtenerIntervalos, procesarRegistros};
