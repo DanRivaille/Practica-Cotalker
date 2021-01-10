@@ -59,7 +59,6 @@ function procesarRegistros(reg, usuarios, intervaloMs) {
  * */
 function obtenerIntervalos(fechaInicialMs, fechaFinalMs) {
     const longitudIntervalos = Math.trunc((fechaFinalMs - fechaInicialMs) / CANT_INTERVALOS);
-
     const intervalos = [];
 
     for(let i = 0; i <= CANT_INTERVALOS; ++i) {

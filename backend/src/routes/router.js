@@ -50,10 +50,9 @@ router.post('/logs', async (req, res) => {
     const db = await connect();
     const collection = db.collection('registros');
 
-    const filtroQuery = crearFiltroQuery(req.body);
-
     const usuarios = new Map();
-    const intervaloMs = (req.body.intervaloMinutos + 1) * 60000;
+    const intervaloMs = minutosAMilisegundos(req.body.intervaloMinutos);
+    const filtroQuery = crearFiltroQuery(req.body);
 
     await collection.find(filtroQuery)
     .forEach(registro => {
@@ -87,6 +86,17 @@ function crearFiltroQuery(filtro) {
         filtroQuery.userId = filtro.userId;
 
     return filtroQuery;
+}
+
+/**
+ * @param {int} minutos cantidad de tiempo representada en minutos
+ * @returns {bigint} Cantidad de tiempo ingresada representada en milisegundos
+ * */
+function minutosAMilisegundos(tiempoEnMinutos) {
+    const MINUTO_EN_MILISEGUNDOS = 60000;
+    const tiempoEnMilisegundos = (tiempoEnMinutos + 1) * MINUTO_EN_MILISEGUNDOS;
+
+    return tiempoEnMilisegundos;
 }
 
 // Se exporta el objeto router que se usa en index.js

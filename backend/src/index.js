@@ -1,5 +1,5 @@
 /**
- * @fileoverview Contienen las configuraciones del server los Middlewares y la funcion main que se encarga
+ * @fileoverview Contienen las configuraciones del server, los Middlewares y la funcion main que se encarga
  * de dejar el server escuchando por solicitudes
  * 
  * @author Dan Santos
