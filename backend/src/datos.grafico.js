@@ -5,7 +5,7 @@ const CANT_INTERVALOS = 5;
  * los labels del grafico, estos labels seran las fechas que se dibujaran en el 
  * eje horizontal del grafico
  * */
-function obtenerLabels(fechaInicialMs, fechaFinalMs) {
+function obtenerIntervalos(fechaInicialMs, fechaFinalMs) {
     const longitudIntervalos = Math.trunc((fechaFinalMs - fechaInicialMs) / CANT_INTERVALOS);
 
     const intervalos = [];
@@ -21,7 +21,8 @@ function obtenerLabels(fechaInicialMs, fechaFinalMs) {
  * Funcion que recibe los registros obtenidos de la consulta a la DB, y obtiene 
  * los datasets que poblaran el grafico
  * */
-function obtenerDatasets(sesiones, intervalos) {
+function obtenerDatasets(usuarios, intervaloMs, intervalos) {
+    const sesiones = obtenerSesiones(usuarios, intervaloMs);
     const cantidades = [];
 
     for(let i = 1; i < intervalos.length; ++i) {
@@ -51,4 +52,46 @@ function perteneceIntervalo(limInf, limSup, sesion) {
     return false;
 }
 
-module.exports = {obtenerLabels, obtenerDatasets, obtenerClave};
+function procesarRegistros(reg, usuarios, intervaloMs) {
+    const clave = obtenerClave(reg);
+    const fechaActual = Date.parse(reg.date);
+
+    if(usuarios.has(clave)) {
+        const usuario = usuarios.get(clave);
+
+        if((fechaActual - usuario.temp.actual) >= intervaloMs) {
+            if(usuario.temp.actual != usuario.temp.inicio) {
+                const nuevaSesion = {"inicio": usuario.temp.inicio, "final": usuario.temp.actual};
+                usuario.sesiones.push(nuevaSesion);
+            }
+
+            usuario.temp.inicio = fechaActual;
+        }
+
+        usuario.temp.actual = fechaActual;
+    } else {
+        const nuevoUsuario = {"sesiones": [], "temp": {"inicio": fechaActual, "actual": fechaActual}};
+        usuarios.set(clave, nuevoUsuario);
+    }
+}
+
+function obtenerSesiones(usuarios, intervaloMs) {
+    let sesiones = [];
+
+    usuarios.forEach(usuario => {
+        if(usuario.temp.actual != usuario.temp.inicio) {
+            if((usuario.temp.actual - usuario.temp.inicio) <= intervaloMs) {
+                const nuevaSesion = {"inicio": usuario.temp.inicio, "final": usuario.temp.actual};
+                usuario.sesiones.push(nuevaSesion);
+            }
+
+            if(usuario.sesiones.length > 0) {
+                sesiones = sesiones.concat(usuario.sesiones);
+            }
+        }
+    });
+
+    return sesiones;
+}
+
+module.exports = {obtenerDatasets, obtenerIntervalos, procesarRegistros};

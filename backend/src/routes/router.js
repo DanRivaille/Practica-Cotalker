@@ -1,7 +1,7 @@
 const Router = require('express').Router;
 const router = Router();
 const connect = require('../database');
-const {obtenerLabels, obtenerDatasets, obtenerClave} = require('../datos.grafico');
+const {obtenerIntervalos, procesarRegistros, obtenerDatasets} = require('../datos.grafico');
 
 router.get('/', (req, res) => {
     res.send('Welcome to my API!');
@@ -41,56 +41,23 @@ router.post('/logs', async (req, res) => {
     const db = await connect();
     const collection = db.collection('registros');
 
-    const datosGrafico = {};
-
-    datosGrafico.labels = obtenerLabels(req.body.initialDateMs, req.body.lastDateMs);
-
     const fechaInicial = new Date(req.body.initialDateMs);
     const fechaFinal = new Date(req.body.lastDateMs);
 
-    const mapa = new Map();
+    const usuarios = new Map();
     const intervaloMs = (req.body.intervaloMinutos + 1) * 60000;
 
     await collection.find({"date": {"$gte": fechaInicial, "$lte": fechaFinal}})
-    .forEach(reg => {
-        const clave = obtenerClave(reg);
-        const fechaActual = Date.parse(reg.date);
-
-        if(mapa.has(clave)) {
-            const usuario = mapa.get(clave);
-
-            if((fechaActual - usuario.temp.actual) >= intervaloMs) {
-                if(usuario.temp.actual != usuario.temp.inicio) {
-                    const nuevaSesion = {"inicio": usuario.temp.inicio, "final": usuario.temp.actual};
-                    usuario.sesiones.push(nuevaSesion);
-                }
-
-                usuario.temp.inicio = fechaActual;
-            }
-
-            usuario.temp.actual = fechaActual;
-        } else {
-            const nuevoUsuario = {"sesiones": [], "temp": {"inicio": fechaActual, "actual": fechaActual}};
-            mapa.set(clave, nuevoUsuario);
-        }
-
+    .forEach(registro => {
+        procesarRegistros(registro, usuarios, intervaloMs);
     });
 
-    let lista = [];
-    mapa.forEach(usuario => {
-        if(usuario.temp.actual != usuario.temp.inicio) {
-            if((usuario.temp.actual - usuario.temp.inicio) <= intervaloMs) {
-                const nuevaSesion = {"inicio": usuario.temp.inicio, "final": usuario.temp.actual};
-                usuario.sesiones.push(nuevaSesion);
-            }
+    const intervalos = obtenerIntervalos(req.body.initialDateMs, req.body.lastDateMs);
 
-            if(usuario.sesiones.length > 0) {
-                lista = lista.concat(usuario.sesiones);
-            }
-        }
-    });
-
-    datosGrafico.datasets = obtenerDatasets(lista, datosGrafico.labels);
+    const datosGrafico = {
+        datasets: obtenerDatasets(usuarios, intervaloMs, intervalos),
+        labels: intervalos
+    }
 
     res.json(datosGrafico)
 });
